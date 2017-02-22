@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta  chartset="utf-8">
+        <script src="${request.contextPath}/staticResources/js/jquery-1.8.3.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("button[name='button']").click(function () {
+                    $.ajax({
+                        url:"doSendMessage",
+                        type:"post",
+                        data:{
+                            "message":$("input[name='message']").val(),
+                            "key":$("input[name='key']").val()
+                        },
+                        dataType:"json",
+                        error:function () {
+                            
+                        },
+                        success:function (data) {
+                            alert(data.msg);
+
+                        }
+                    });
+                });
+
+            });
+
+        </script>
+
+    </head>
+
+<body>
+    <div>
+        <span>发送消息:</span>
+        <input type="text" name="message" value="">
+    </div>
+    <div>
+        <span>队列key</span>
+        <input type="text" name="key" value="">
+    </div>
+
+    <div>
+        <button name="button">发送</button>
+    </div>
+</body>
+</html>
