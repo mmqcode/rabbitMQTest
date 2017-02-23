@@ -25,6 +25,24 @@
                     });
                 });
 
+                $("button[name='button1']").click(function(){
+                    $.ajax({
+                        url:"sendPojoMessage",
+                        type:"post",
+                        data:{
+                            "key":$("input[name='key']").val()
+                        },
+                        dataType:"json",
+                        error:function () {
+
+                        },
+                        success:function (data) {
+                            alert(data.msg);
+
+                        }
+                    });
+                });
+
             });
 
         </script>
@@ -43,6 +61,10 @@
 
     <div>
         <button name="button">发送</button>
+    </div>
+    <br/>
+    <div>
+        <button name="button1">发送POJO消息</button>
     </div>
 </body>
 </html>

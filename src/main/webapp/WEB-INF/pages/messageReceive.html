@@ -6,20 +6,50 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("button[name='button']").click(function () {
+            $("button[name='recieveMessage']").click(function () {
                 $.ajax({
-                    url:"doSendMessage",
+                    url:"recieveMessage",
                     type:"post",
                     data:{
-                        "message":$("input[name='message']").val(),
-                        "key":$("input[name='key']").val()
+                        "queueName":$("input[name='queueName']").val(),
+                        "time":new Date()
                     },
                     dataType:"json",
                     error:function () {
 
                     },
                     success:function (data) {
-                        alert(data.msg);
+                        if(data.code == "0"){
+                            var message = "<p>"+data.msg+"</p>";
+
+                            $("div[name='message1']").append(message);
+                        }else{
+                            alert(data.msg);
+                        }
+
+                    }
+                });
+            });
+
+            $("button[name='recievePojoMessage']").click(function () {
+                $.ajax({
+                    url:"recievePojoMessage",
+                    type:"post",
+                    data:{
+                        "queueName":$("input[name='queueName']").val(),
+                        "time":new Date()
+                    },
+                    dataType:"json",
+                    error:function () {
+
+                    },
+                    success:function (data) {
+                        if(data.code == "0"){
+                            var message = "<p>name:"+data.user.name+",account:"+data.user.account+"</p>";
+                            $("div[name='message1']").append(message);
+                        }else{
+                            alert(data.msg);
+                        }
 
                     }
                 });
@@ -32,7 +62,19 @@
 </head>
 <body>
 
+    <div style="border: 1px solid; height: 400px; overflow-y: auto;">
+        <div>
+            队列Name:<input name="queueName" value="">
+            <button name="recieveMessage" >同步接收String一次</button>
+        </div>
+        <div>
+            <button name="recievePojoMessage" >同步接收POJO一次</button>
+        </div>
+        <div name="message1">
 
-    <button name="startListner" ></button>
+
+        </div>
+    </div>
+
 </body>
 </html>
