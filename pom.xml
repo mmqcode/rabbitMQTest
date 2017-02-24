@@ -11,6 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.springframework.version>4.3.6.RELEASE</org.springframework.version>
     </properties>
+
   <dependencies>
       <dependency>
         <groupId>junit</groupId>

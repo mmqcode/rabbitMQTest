@@ -62,6 +62,21 @@ public class TestRabbitMQController {
         this.ioTool.writeMessageResponse(result, response);
     }
 
+    @RequestMapping(value = "/sendMessageTofanout", method = RequestMethod.POST)
+    public void sendMessageToFanout(String message, HttpServletResponse response){
+        this.messageProducer.sendMessageToFanout(message);
+        String result = this.jsonTool.getSimpleMsgJson("操作成功!","0");
+        this.ioTool.writeMessageResponse(result, response);
+    }
+
+    @RequestMapping(value = "/sendMessageToTopic", method = RequestMethod.POST)
+    public void sendMessageToTopic(String message, String pattern, HttpServletResponse response){
+
+        this.messageProducer.sendMessageToTopic(message, pattern);
+        String result = this.jsonTool.getSimpleMsgJson("操作成功!","0");
+        this.ioTool.writeMessageResponse(result, response);
+    }
+
     @RequestMapping(value = "/showRecieveMessagePage")
     public ModelAndView showRecieveMessagePage(){
         String targetPage = "messageReceive";

@@ -30,7 +30,7 @@
                         url:"sendPojoMessage",
                         type:"post",
                         data:{
-                            "key":$("input[name='key']").val()
+                            "key":$("input[name='key1']").val()
                         },
                         dataType:"json",
                         error:function () {
@@ -43,6 +43,46 @@
                     });
                 });
 
+                $("button[name='button2']").click(function () {
+                    $.ajax({
+                        url:"sendMessageTofanout",
+                        type:"post",
+                        data:{
+                            "message":$("input[name='message2']").val()
+                        },
+                        dataType:"json",
+                        error:function () {
+
+                        },
+                        success:function (data) {
+                            alert(data.msg);
+
+                        }
+                    });
+                });
+
+                $("button[name='button3']").click(function () {
+                    $.ajax({
+                        url:"sendMessageToTopic",
+                        type:"post",
+                        data:{
+                            "message":$("input[name='message3']").val(),
+                            "pattern":$("input[name='pattern']").val()
+                        },
+                        dataType:"json",
+                        error:function () {
+
+                        },
+                        success:function (data) {
+                            alert(data.msg);
+
+                        }
+
+                    });
+
+                });
+
+
             });
 
         </script>
@@ -51,20 +91,53 @@
 
 <body>
     <div>
-        <span>发送消息:</span>
-        <input type="text" name="message" value="">
-    </div>
-    <div>
-        <span>队列key</span>
-        <input type="text" name="key" value="">
+        <h3>direct Exchange</h3>
+        <div>
+            <span>发送消息:</span>
+            <input type="text" name="message" value="">
+        </div>
+        <div>
+            <span>队列key</span>
+            <input type="text" name="key" value="">
+        </div>
+
+        <div>
+            <button name="button">发送</button>
+        </div>
+        <br/>
+        <div>
+            <span>队列key</span>
+            <input type="text" name="key1" value="">
+            <button name="button1">发送POJO消息</button>
+        </div>
     </div>
 
     <div>
-        <button name="button">发送</button>
+        <h3>fanout Exchange</h3>
+        <div>
+            <span>发送消息:</span>
+            <input type="text" name="message2" value="">
+        </div>
+        <div>
+            <button name="button2">发送</button>
+        </div>
+
     </div>
-    <br/>
+
     <div>
-        <button name="button1">发送POJO消息</button>
+        <h3>topic Exchange</h3>
+        <div>
+            <span>发送消息:</span>
+            <input type="text" name="message3" value="">
+        </div>
+        <div>
+            <span>pattern:</span>
+            <input type="text" name="pattern" value="">
+        </div>
+        <div>
+            <button name="button3">发送</button>
+        </div>
+
     </div>
 </body>
 </html>
