@@ -31,7 +31,5 @@ public class MessageConsumerManual implements ChannelAwareMessageListener {
             messageString = null;
             channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
         }
-
-
     }
 }
