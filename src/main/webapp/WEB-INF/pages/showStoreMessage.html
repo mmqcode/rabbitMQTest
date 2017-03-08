@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta  chartset="utf-8">
+
+
+
+</head>
+
+<h3>收到的消息:</h3>
+<ul>
+    <#if model?? && model.messages??>
+        <#list model.messages as message>
+            <li>${message}</li>
+        </#list>
+
+    </#if>
+
+</ul>
+
+</html>

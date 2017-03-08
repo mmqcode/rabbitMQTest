@@ -1,5 +1,7 @@
 package com.mmq.rabbitTest.vo;
 
+import org.springframework.context.annotation.Bean;
+
 import java.io.Serializable;
 
 /**

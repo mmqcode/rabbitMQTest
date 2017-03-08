@@ -16,7 +16,6 @@ import java.io.UnsupportedEncodingException;
 public class MessageConsumerManual implements ChannelAwareMessageListener {
 
     private static final Logger logger = LogManager.getLogger(MessageConsumerManual.class);
-    @Override
     public void onMessage(Message message, Channel channel) throws Exception {
 
         String messageString;

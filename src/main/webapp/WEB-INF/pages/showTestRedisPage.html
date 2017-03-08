@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta  chartset="utf-8">
+    <script src="${request.contextPath}/staticResources/js/jquery-1.8.3.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $("button[name=TestConnection]").click(function () {
+                $.ajax({
+                    url:"testConnection",
+                    type:"post",
+                    data:{
+                        date:new Date()
+                    },
+                    success:function () {
+
+                    }
+                });
+            });
+
+            $("button[name='TestHashMapper']").click(function () {
+                $.ajax({
+                    url:"testHashMapper",
+                    type:"post",
+                    data:{
+                        date:new Date()
+                    },
+                    success:function () {
+
+                    }
+                });
+            });
+
+            $("button[name='testTransaction']").click(function () {
+                $.ajax({
+                    url:"testTransaction",
+                    type:"post",
+                    data:{
+                        date:new Date()
+                    },
+                    success:function () {
+
+                    }
+                });
+            });
+
+        });
+
+    </script>
+
+</head>
+<h4>Test Connection:</h4>
+<button name="TestConnection">try</button>
+<h4>Test HashMapper</h4>
+<button name="TestHashMapper">testHashMapper</button>
+<h4>Test testTransaction</h4>
+<button name="testTransaction">testTransaction</button>
+
+</html>

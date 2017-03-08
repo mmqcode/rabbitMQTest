@@ -10,7 +10,7 @@
         <!-- 输出到控制台 -->
         <Console name="Console" target="SYSTEM_OUT">
             <!-- 部署时如果发现web容器控制台乱码，可以将charset改为GBK -->
-            <PatternLayout charset="UTF-8" pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <PatternLayout charset="GBK" pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
 
         <!-- 文件方式记录，日志文件位于当前配置文件的相对目录中 -->

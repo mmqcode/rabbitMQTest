@@ -12,7 +12,7 @@
     <import resource="Spring-mvc.xml"></import>
     
     <rabbit:connection-factory id="connectionFactory"
-                               username="mmq" password="mmq" host="192.168.1.135" port="5672" virtual-host="/vhost1" />
+                               username="mmq" password="mmq" host="192.168.1.188" port="5672" virtual-host="vhost1" />
 
 
     <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->

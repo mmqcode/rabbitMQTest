@@ -8,6 +8,8 @@ import com.mmq.rabbitTest.tool.JsonTool;
 import com.mmq.rabbitTest.vo.User;
 import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +39,11 @@ public class TestRabbitMQController {
     @Autowired
     private IoTool ioTool;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @RequestMapping(value = "/showProducer")
     public ModelAndView showMessageProducerPage(){
@@ -124,6 +132,16 @@ public class TestRabbitMQController {
             resultJson = this.jsonTool.getSimpleMsgJson(e.getMessage(), "1");
         }
         this.ioTool.writeMessageResponse(resultJson, response);
+    }
+
+    @RequestMapping(value="/showStoreMessage", method = RequestMethod.GET)
+    public ModelAndView showStoreMessage(){
+        String tagetPage = "showStoreMessage";
+        Map<String, Object> resultMap = new HashMap<>();
+        List<String> messageList = this.stringRedisTemplate.opsForList().range("message",0, -1);
+
+        resultMap.put("messages", messageList);
+        return new ModelAndView(tagetPage, "model", resultMap);
     }
 
 }
