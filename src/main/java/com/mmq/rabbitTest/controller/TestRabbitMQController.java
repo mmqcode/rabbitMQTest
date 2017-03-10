@@ -5,6 +5,7 @@ import com.mmq.rabbitTest.consumer.MessageRecieve;
 import com.mmq.rabbitTest.producer.MessageProducer;
 import com.mmq.rabbitTest.tool.IoTool;
 import com.mmq.rabbitTest.tool.JsonTool;
+import com.mmq.rabbitTest.vo.TextMessage;
 import com.mmq.rabbitTest.vo.User;
 import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,8 @@ public class TestRabbitMQController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    private Gson gson = new Gson();
+
     @RequestMapping(value = "/showProducer")
     public ModelAndView showMessageProducerPage(){
         String targetPage = "messageProduce";
@@ -61,6 +65,20 @@ public class TestRabbitMQController {
 
         String result = this.jsonTool.getSimpleMsgJson("操作成功!","0");
         this.ioTool.writeMessageResponse(result, response);
+    }
+
+    @RequestMapping(value = "/doSendTextMessage", method = RequestMethod.POST)
+    public void doSendTextMessage(String content, String key, HttpServletResponse response){
+
+        TextMessage textMessage = new TextMessage();
+        textMessage.setContent(content);
+        textMessage.setMessageDestination("mmq");
+        textMessage.setMessageSource("system");
+        textMessage.setSendTime(new Date());
+        this.messageProducer.sendTextMessage(textMessage, key);
+
+        String jsonResult = this.jsonTool.getSimpleMsgJson("操作成功!", "0");
+        this.ioTool.writeMessageResponse(jsonResult, response);
     }
 
     @RequestMapping(value = "/sendPojoMessage", method = RequestMethod.POST)
@@ -143,5 +161,41 @@ public class TestRabbitMQController {
         resultMap.put("messages", messageList);
         return new ModelAndView(tagetPage, "model", resultMap);
     }
+
+    @RequestMapping(value = "/longPollingGetMessage", method = RequestMethod.POST)
+    public void longPollingGetMessage(HttpServletResponse response){
+
+        long startTime = System.currentTimeMillis();
+        long currentTime;
+        long waitTimeout = 9000l;
+        //当前用户
+        String currentUser = "mmq";
+        Map<String, Object> resultMap = new HashMap<>();
+        while(true){
+
+            String jsonTextMessage = this.stringRedisTemplate.opsForList().leftPop("textMessage:"+currentUser);
+            if(null != jsonTextMessage){
+
+                TextMessage textMessage = this.gson.fromJson(jsonTextMessage, TextMessage.class);
+
+                resultMap.put("code","0");
+                resultMap.put("msg", "获取到消息!");
+                resultMap.put("textMessage", textMessage);
+                break;
+            }
+            currentTime = System.currentTimeMillis();
+            if(currentTime - startTime > waitTimeout){
+                resultMap.put("code","1");
+                resultMap.put("msg", "超时!");
+                break;
+            }
+        }
+
+        String resultJson = this.gson.toJson(resultMap);
+        this.ioTool.writeMessageResponse(resultJson, response);
+
+    }
+
+
 
 }

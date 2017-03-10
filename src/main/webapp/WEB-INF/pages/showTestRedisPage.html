@@ -44,6 +44,20 @@
                 });
             });
 
+            $("button[name='testSet']").click(function () {
+                $.ajax({
+                    url:"testSet",
+                    type:"post",
+                    data:{
+                        date:new Date()
+                    },
+                    success:function () {
+
+                    }
+                });
+            });
+
+
         });
 
     </script>
@@ -55,5 +69,7 @@
 <button name="TestHashMapper">testHashMapper</button>
 <h4>Test testTransaction</h4>
 <button name="testTransaction">testTransaction</button>
+<h4>Test testSet</h4>
+<button name="testSet">testSet</button>
 
 </html>

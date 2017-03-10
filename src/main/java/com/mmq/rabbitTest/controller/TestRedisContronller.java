@@ -38,6 +38,14 @@ public class TestRedisContronller {
     @RequestMapping(value = "/testTransaction", method = RequestMethod.POST)
     public void testTransaction(){
         this.redisMethodTest.testTransaction();
+
+    }
+
+    @RequestMapping(value = "/testSet", method = RequestMethod.POST)
+    public void testSet(){
+
+        this.redisMethodTest.testSet();
+
     }
 
 

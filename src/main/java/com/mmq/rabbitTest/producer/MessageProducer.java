@@ -1,6 +1,7 @@
 package com.mmq.rabbitTest.producer;
 
 import com.mmq.rabbitTest.tool.IoTool;
+import com.mmq.rabbitTest.vo.TextMessage;
 import com.mmq.rabbitTest.vo.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,8 +59,23 @@ public class MessageProducer {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 发送文本消息对象
+     * @param textMessage
+     * @param queueKey
+     */
+    public void sendTextMessage(TextMessage textMessage, String queueKey){
+
+        try{
+            this.amqpTemplate.convertAndSend(queueKey, textMessage);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
+
 
     public void sendPojoMessage(String key){
         User user = new User();

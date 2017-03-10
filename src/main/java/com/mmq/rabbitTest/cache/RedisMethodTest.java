@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2017/3/7.
@@ -89,6 +90,37 @@ public class RedisMethodTest {
 
     //集群cluster
     public void testCluster(){
+
+
+    }
+
+    public void testSet(){
+
+        SetOperations<String, String> setOperations = this.redisTemplate.opsForSet();
+        setOperations.add("fly", "birds", "bianfu", "qingting");
+        setOperations.add("kunchong", "qingting", "hudie");
+        Set<String> differenceSet = setOperations.difference("fly", "kunchong");
+        System.out.println(differenceSet);
+        setOperations.isMember("fly", "airplane");
+
+        Set<String> interSet=setOperations.intersect("fly", "kunchong");
+
+        System.out.println(interSet);
+
+        setOperations.size("fly");
+
+        setOperations.randomMember("fly");
+
+        setOperations.pop("fly");
+
+
+        ZSetOperations<String, String> zSetOperations = this.redisTemplate.opsForZSet();
+
+        zSetOperations.add("animal","tiger", 100);
+        zSetOperations.score("animal", "tiger");
+
+        zSetOperations.incrementScore("animal","tiger", 10);
+        zSetOperations.size("animal");
 
 
     }

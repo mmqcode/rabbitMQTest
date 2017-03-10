@@ -54,8 +54,44 @@
                     }
                 });
             });
-
+            longpolling();
         });
+
+        function longpolling(){
+            $.ajax({
+                url:"longPollingGetMessage",
+                type:"post",
+                data:{
+                    time:new Date()
+                },
+                timeout:10000,
+                dataType:"json",
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    if(textStatus == "timeout"){//请求超时
+                        longpolling();
+                    }else{
+                        longpolling();
+                    }
+
+                },
+                success:function(data, textStatus){
+
+                    if(data.code == "0"){
+                        var message = "<div style='margin: 4px;border: solid 1px;'>";
+                        message += "<p>from:["+data.textMessage.messageSource+"]</p>";
+                        message += "<p>to:["+data.textMessage.messageDestination+"]</p>";
+                        message += "<p>content:["+data.textMessage.content+"]</p>";
+                        message += "<p>sendTime:["+data.textMessage.sendTime+"]</p>";
+                        message += "</div>"
+                        $("div[name='message2']").append(message);
+                    }
+                    if(textStatus == "success"){
+                        longpolling();
+                    }
+
+                }
+            });
+        }
 
     </script>
 
@@ -73,6 +109,13 @@
 
         </div>
     </div>
+    <div style="border:1px solid;height: 600px;overflow-y: auto;">
+        <h3>从服务器推送过来的消息:</h3>
+        <div name="message2">
+
+        </div>
+    </div>
+
 
 </body>
 </html>

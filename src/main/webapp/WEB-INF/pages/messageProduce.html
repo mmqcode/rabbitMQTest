@@ -82,6 +82,25 @@
 
                 });
 
+                $("button[name='buttonTextMessage']").click(function () {
+                    $.ajax({
+                        url:"doSendTextMessage",
+                        type:"post",
+                        data:{
+                            "content":$("input[name='message']").val(),
+                            "key":$("input[name='key']").val()
+                        },
+                        dataType:"json",
+                        error:function () {
+
+                        },
+                        success:function (data) {
+                            alert(data.msg);
+                        }
+
+                    });
+                });
+
 
             });
 
@@ -102,7 +121,10 @@
         </div>
 
         <div>
-            <button name="button">发送</button>
+            <button name="button">发送String对象消息</button>
+        </div>
+        <div>
+            <button name="buttonTextMessage">发送TextMessage对象消息</button>
         </div>
         <br/>
         <div>
